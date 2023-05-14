@@ -1,0 +1,20 @@
+body {
+  margin: 0px;
+}
+
+.gameboard {
+  height: 160px;
+  width: 160px;
+  background-color: blue;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+
+.square {
+  height: 45px;
+  width: 45px;
+  background-color: red;
+  margin: 2.5px;
+  text-align: center;
+}
