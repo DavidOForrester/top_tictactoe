@@ -15,7 +15,10 @@ const Gameboard = (() => {
       for (let j = 0; j < board[i].length; j++) {
         const div = document.createElement("div");
         div.innerText = board[i][j];
-        div.className = "square"
+        div.className = "square";
+        div.addEventListener("click", () => {
+          console.log("Square Clicked");
+        });
         divs.push(div);
       }
     }
@@ -34,7 +37,7 @@ const Gameboard = (() => {
 //Player()
 
 // module
-//PlayRound()
+// PlayRound() 
 
 // Global Code
 board = Gameboard.board;

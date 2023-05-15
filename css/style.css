@@ -1,20 +1,22 @@
 body {
   margin: 0px;
+  font-family: sans-serif;
 }
 
 .gameboard {
-  height: 160px;
-  width: 160px;
-  background-color: blue;
+  height: 200px;
+  width: 200px;
+  background-color: lightblue;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
+  gap: 5px;
 }
 
 .square {
-  height: 45px;
-  width: 45px;
-  background-color: red;
-  margin: 2.5px;
-  text-align: center;
+  font-size: 55px;
+  background-color: lightcoral;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
