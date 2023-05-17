@@ -17,7 +17,11 @@ const Gameboard = (() => {
         div.innerText = board[i][j];
         div.className = "square";
         div.addEventListener("click", () => {
-          console.log("Square Clicked");
+          if ((board[i][j].length == 0)) {
+            board[i][j] = "Z";
+          }
+
+          console.log(board);
         });
         divs.push(div);
       }
@@ -34,17 +38,26 @@ const Gameboard = (() => {
 })();
 
 // factory
-//Player()
+const Player = (name, symbol) => {
+  return {name, symbol}
+}
 
 // module
-// PlayRound() 
+const PlayRound = (() => {
+  board = Gameboard.board;
+
+  board[0][0] = "X";
+  board[1][2] = "O";
+  board[2][1] = "X";
+
+  console.log(board);
+  Gameboard.display();
+})();
 
 // Global Code
-board = Gameboard.board;
+const player1 = Player("David", "X")
+const player2 = Player("Bot", "O")
 
-board[0][0] = "X";
-board[1][2] = "O";
-board[2][1] = "X";
+console.log(player1.name)
 
-console.log(board);
-Gameboard.display();
+PlayRound();
