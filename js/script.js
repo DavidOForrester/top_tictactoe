@@ -26,6 +26,7 @@ const Gameboard = (() => {
             }
             board[i][j] = prevSymbol;
             div.innerText = prevSymbol;
+            checkWinner(prevSymbol);
           }
         });
         divs.push(div);
@@ -39,7 +40,47 @@ const Gameboard = (() => {
     }
   };
 
-  return { board, display };
+  const checkWinner = (prevSymbol) => {
+    for (var i = 0; i < board.length; i++) {
+      if (
+        board[i][0] === board[i][1] &&
+        board[i][1] === board[i][2] &&
+        board[i][0] !== ""
+      ) {
+        console.log("Winner is " + prevSymbol);
+      }
+    }
+
+    for (var j = 0; j < board[0].length; j++) {
+      if (
+        board[0][j] === board[1][j] &&
+        board[1][j] === board[2][j] &&
+        board[0][j] !== ""
+      ) {
+        console.log("Winner is " + prevSymbol);
+      }
+    }
+
+    if (
+      board[0][0] === board[1][1] &&
+      board[1][1] === board[2][2] &&
+      board[0][0] !== ""
+    ) {
+      console.log("Winner is " + prevSymbol);
+    }
+
+    if (
+      board[0][2] === board[1][1] &&
+      board[1][1] === board[2][0] &&
+      board[0][2] !== ""
+    ) {
+      console.log("Winner is " + prevSymbol);
+    }
+
+    return null;
+  };
+
+  return { board, display, checkWinner };
 })();
 
 // factory
@@ -49,7 +90,6 @@ const Player = (name, symbol) => {
 
 // module
 const PlayRound = (() => {
-  board = Gameboard.board;
   Gameboard.display();
 })();
 
@@ -57,4 +97,5 @@ const PlayRound = (() => {
 const player1 = Player("David", "X");
 const player2 = Player("Bot", "O");
 
-PlayRound();
+//PlayRound();
+Gameboard.display();
