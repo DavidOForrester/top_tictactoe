@@ -10,6 +10,7 @@ const Gameboard = (() => {
 
   const display = () => {
     const divs = [];
+    let prevSymbol = "X";
 
     for (let i = 0; i < board.length; i++) {
       for (let j = 0; j < board[i].length; j++) {
@@ -17,11 +18,15 @@ const Gameboard = (() => {
         div.innerText = board[i][j];
         div.className = "square";
         div.addEventListener("click", () => {
-          if ((board[i][j].length == 0)) {
-            board[i][j] = "Z";
+          if (board[i][j].length == 0) {
+            if (prevSymbol == "X") {
+              prevSymbol = "O";
+            } else if (prevSymbol == "O") {
+              prevSymbol = "X";
+            }
+            board[i][j] = prevSymbol;
+            div.innerText = prevSymbol;
           }
-
-          console.log(board);
         });
         divs.push(div);
       }
@@ -39,25 +44,17 @@ const Gameboard = (() => {
 
 // factory
 const Player = (name, symbol) => {
-  return {name, symbol}
-}
+  return { name, symbol };
+};
 
 // module
 const PlayRound = (() => {
   board = Gameboard.board;
-
-  board[0][0] = "X";
-  board[1][2] = "O";
-  board[2][1] = "X";
-
-  console.log(board);
   Gameboard.display();
 })();
 
 // Global Code
-const player1 = Player("David", "X")
-const player2 = Player("Bot", "O")
-
-console.log(player1.name)
+const player1 = Player("David", "X");
+const player2 = Player("Bot", "O");
 
 PlayRound();
