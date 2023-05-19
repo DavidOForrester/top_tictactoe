@@ -1,5 +1,4 @@
-// module
-const Gameboard = (() => {
+const gameboard = (() => {
   board = [];
   for (let i = 0; i < 3; i++) {
     this.board.push([]);
@@ -26,7 +25,7 @@ const Gameboard = (() => {
             }
             board[i][j] = prevSymbol;
             div.innerText = prevSymbol;
-            checkWinner(prevSymbol);
+            play.checkWinner(prevSymbol);
           }
         });
         divs.push(div);
@@ -40,6 +39,18 @@ const Gameboard = (() => {
     }
   };
 
+  return { board, display };
+})();
+
+const player = (name, symbol) => {
+  return { name, symbol };
+};
+
+const play = (() => {
+  const round = () => {
+    gameboard.display();
+  };
+
   const checkWinner = (prevSymbol) => {
     for (var i = 0; i < board.length; i++) {
       if (
@@ -47,7 +58,7 @@ const Gameboard = (() => {
         board[i][1] === board[i][2] &&
         board[i][0] !== ""
       ) {
-        console.log("Winner is " + prevSymbol);
+        play.winner(prevSymbol);
       }
     }
 
@@ -57,7 +68,7 @@ const Gameboard = (() => {
         board[1][j] === board[2][j] &&
         board[0][j] !== ""
       ) {
-        console.log("Winner is " + prevSymbol);
+        play.winner(prevSymbol);
       }
     }
 
@@ -66,7 +77,7 @@ const Gameboard = (() => {
       board[1][1] === board[2][2] &&
       board[0][0] !== ""
     ) {
-      console.log("Winner is " + prevSymbol);
+      play.winner(prevSymbol);
     }
 
     if (
@@ -74,28 +85,22 @@ const Gameboard = (() => {
       board[1][1] === board[2][0] &&
       board[0][2] !== ""
     ) {
-      console.log("Winner is " + prevSymbol);
+      lpay.winner(prevSymbol);
     }
 
     return null;
+  };  
+
+  const winner = (prevSymbol) => {
+    winnerText = "Winner is " + prevSymbol;
+    console.log(winnerText);
   };
 
-  return { board, display, checkWinner };
-})();
-
-// factory
-const Player = (name, symbol) => {
-  return { name, symbol };
-};
-
-// module
-const PlayRound = (() => {
-  Gameboard.display();
+  return { round, winner, checkWinner };
 })();
 
 // Global Code
-const player1 = Player("David", "X");
-const player2 = Player("Bot", "O");
+const player1 = player("David", "X");
+const player2 = player("Bot", "O");
 
-//PlayRound();
-Gameboard.display();
+play.round();
