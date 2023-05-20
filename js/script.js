@@ -91,6 +91,8 @@ const play = (() => {
   };
 
   const winner = (prevSymbol) => {
+    // disable the event listners
+
     winnerText = "Winner is " + prevSymbol;
 
     const div = document.createElement("div");
@@ -117,7 +119,18 @@ const play = (() => {
   };
 
   const newGame = () => {
-    
+    const squares = document.querySelectorAll(".square");
+    for (const square of squares) {
+      square.remove();
+    }
+
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        board[i][j] = "";
+      }
+    }
+
+    gameboard.display();
   };
 
   const resetGame = () => {
