@@ -42,13 +42,12 @@ const gameboard = (() => {
   return { board, display };
 })();
 
-const player = (name, symbol) => {
-  return { name, symbol };
-};
-
 const play = (() => {
   const round = () => {
-    gameboard.display();
+    const startButton = document.getElementById("start-button");
+    startButton.addEventListener("click", () => {
+      gameboard.display();
+    });
   };
 
   const checkWinner = (prevSymbol) => {
@@ -85,19 +84,52 @@ const play = (() => {
       board[1][1] === board[2][0] &&
       board[0][2] !== ""
     ) {
-      lpay.winner(prevSymbol);
+      play.winner(prevSymbol);
     }
 
     return null;
-  };  
+  };
 
   const winner = (prevSymbol) => {
     winnerText = "Winner is " + prevSymbol;
-    console.log(winnerText);
+
+    const div = document.createElement("div");
+    div.innerText = winnerText;
+
+    const newGameButton = document.createElement("button");
+    newGameButton.id = "new-game-button";
+    newGameButton.innerText = "New Game";
+    newGameButton.addEventListener("click", () => {
+      newGame();
+    });
+
+    const resetGameButton = document.createElement("button");
+    resetGameButton.id = "reset-game-button";
+    resetGameButton.innerText = "Reset Game";
+    resetGameButton.addEventListener("click", () => {
+      resetGame();
+    });
+
+    const container = document.querySelector(".information");
+    container.appendChild(div);
+    container.appendChild(newGameButton);
+    container.appendChild(resetGameButton);
+  };
+
+  const newGame = () => {
+    
+  };
+
+  const resetGame = () => {
+    location.reload();
   };
 
   return { round, winner, checkWinner };
 })();
+
+const player = (name, symbol) => {
+  return { name, symbol };
+};
 
 // Global Code
 const player1 = player("David", "X");
