@@ -43,21 +43,28 @@ const gameboard = (() => {
 })();
 
 const play = (() => {
+  let rounds = 0;
+
   const round = () => {
     const startButton = document.getElementById("start-button");
     startButton.addEventListener("click", () => {
-      gameboard.display();
+      const divWithSquareClass = document.querySelectorAll(".square");
+      if (divWithSquareClass.length == 0) {
+        gameboard.display();
+      }
     });
   };
 
   const checkWinner = (prevSymbol) => {
+    rounds = rounds + 1;
+    console.log(rounds)
     for (var i = 0; i < board.length; i++) {
       if (
         board[i][0] === board[i][1] &&
         board[i][1] === board[i][2] &&
         board[i][0] !== ""
       ) {
-        play.winner(prevSymbol);
+        play.gameover(prevSymbol, false);
       }
     }
 
@@ -67,7 +74,7 @@ const play = (() => {
         board[1][j] === board[2][j] &&
         board[0][j] !== ""
       ) {
-        play.winner(prevSymbol);
+        play.gameover(prevSymbol, false);
       }
     }
 
@@ -76,7 +83,7 @@ const play = (() => {
       board[1][1] === board[2][2] &&
       board[0][0] !== ""
     ) {
-      play.winner(prevSymbol);
+      play.gameover(prevSymbol, false);
     }
 
     if (
@@ -84,19 +91,28 @@ const play = (() => {
       board[1][1] === board[2][0] &&
       board[0][2] !== ""
     ) {
-      play.winner(prevSymbol);
+      play.gameover(prevSymbol, false);
+    }
+
+    // TODO: need to check the game was not won on the last move
+    if (rounds == 9) {
+      play.gameover(prevSymbol, true);
     }
 
     return null;
   };
 
-  const winner = (prevSymbol) => {
-    // disable the event listners
+  const gameover = (prevSymbol, draw) => {
+    // TODO: disable the event listners for the squares
 
-    winnerText = "Winner is " + prevSymbol;
+    if (draw == false) {
+      gameResultText = "Winner is " + prevSymbol;
+    } else {
+      gameResultText = "It's a Draw ";
+    }
 
     const div = document.createElement("div");
-    div.innerText = winnerText;
+    div.innerText = gameResultText;
 
     const newGameButton = document.createElement("button");
     newGameButton.id = "new-game-button";
@@ -131,13 +147,18 @@ const play = (() => {
     }
 
     gameboard.display();
+
+    const informationDiv = document.querySelector(".information");
+    while (informationDiv.firstChild) {
+      informationDiv.removeChild(informationDiv.firstChild);
+    }
   };
 
   const resetGame = () => {
     location.reload();
   };
 
-  return { round, winner, checkWinner };
+  return { round, gameover, checkWinner };
 })();
 
 const player = (name, symbol) => {
