@@ -48,6 +48,15 @@ const play = (() => {
     startButton.addEventListener("click", () => {
       const divWithSquareClass = document.querySelectorAll(".square");
       if (divWithSquareClass.length == 0) {
+        const player1Input = document.getElementById("player-one");
+        const nameOne = player1Input.value;
+
+        const player2Input = document.getElementById("player-two");
+        const nameTwo = player2Input.value;
+
+        player1 = player(nameOne, "O");
+        player2 = player(nameTwo, "X");
+
         gameboard.display();
       }
     });
@@ -102,10 +111,17 @@ const play = (() => {
   };
 
   const gameover = (prevSymbol, draw) => {
-    // TODO: disable the event listners for the squares
+    const squares = document.querySelectorAll(".square");
+    for (const square of squares) {
+      square.remove();
+    }
 
     if (draw == false) {
-      gameResultText = "Winner is " + prevSymbol;
+      if (prevSymbol == player1.symbol) {
+        gameResultText = "Winner is " + player1.name;
+      } else {
+        gameResultText = "Winner is " + player2.name;
+      }
     } else {
       gameResultText = "It's a Draw ";
     }
@@ -136,11 +152,6 @@ const play = (() => {
   const newGame = () => {
     turns = 0;
 
-    const squares = document.querySelectorAll(".square");
-    for (const square of squares) {
-      square.remove();
-    }
-
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
         board[i][j] = "";
@@ -159,7 +170,7 @@ const play = (() => {
     location.reload();
   };
 
-  return { round, gameover, checkWinner };
+  return { round, gameover, checkWinner, gameover, newGame, resetGame };
 })();
 
 const player = (name, symbol) => {
@@ -168,7 +179,4 @@ const player = (name, symbol) => {
 
 // Global Code
 let turns = 0;
-const player1 = player("David", "X");
-const player2 = player("Bot", "O");
-
 play.round();
