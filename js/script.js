@@ -43,8 +43,6 @@ const gameboard = (() => {
 })();
 
 const play = (() => {
-  let rounds = 0;
-
   const round = () => {
     const startButton = document.getElementById("start-button");
     startButton.addEventListener("click", () => {
@@ -56,15 +54,15 @@ const play = (() => {
   };
 
   const checkWinner = (prevSymbol) => {
-    rounds = rounds + 1;
-    console.log(rounds)
+    turns = turns + 1;
+    winnerFound = "No";
     for (var i = 0; i < board.length; i++) {
       if (
         board[i][0] === board[i][1] &&
         board[i][1] === board[i][2] &&
         board[i][0] !== ""
       ) {
-        play.gameover(prevSymbol, false);
+        winnerFound = "Yes";
       }
     }
 
@@ -74,7 +72,7 @@ const play = (() => {
         board[1][j] === board[2][j] &&
         board[0][j] !== ""
       ) {
-        play.gameover(prevSymbol, false);
+        winnerFound = "Yes";
       }
     }
 
@@ -83,7 +81,7 @@ const play = (() => {
       board[1][1] === board[2][2] &&
       board[0][0] !== ""
     ) {
-      play.gameover(prevSymbol, false);
+      winnerFound = "Yes";
     }
 
     if (
@@ -91,12 +89,13 @@ const play = (() => {
       board[1][1] === board[2][0] &&
       board[0][2] !== ""
     ) {
-      play.gameover(prevSymbol, false);
+      winnerFound = "Yes";
     }
 
-    // TODO: need to check the game was not won on the last move
-    if (rounds == 9) {
+    if ((turns == 9) & (winnerFound == "No")) {
       play.gameover(prevSymbol, true);
+    } else if (winnerFound == "Yes") {
+      play.gameover(prevSymbol, false);
     }
 
     return null;
@@ -135,6 +134,8 @@ const play = (() => {
   };
 
   const newGame = () => {
+    turns = 0;
+
     const squares = document.querySelectorAll(".square");
     for (const square of squares) {
       square.remove();
@@ -166,6 +167,7 @@ const player = (name, symbol) => {
 };
 
 // Global Code
+let turns = 0;
 const player1 = player("David", "X");
 const player2 = player("Bot", "O");
 
